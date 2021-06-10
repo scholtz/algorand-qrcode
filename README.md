@@ -76,15 +76,36 @@ A comprehensive javascript module with a complete set of tools to generate an st
     algorandurn     = "algorand://" algorandaddress [ "?" algorandparams ]
     algorandaddress = *base32
     algorandparams  = algorandparam [ "&" algorandparams ]
-    algorandparam   = [ amountparam / labelparam / noteparam / assetparam / otherparam ]
+    algorandparam   = [ amountparam / feeparam / decimalparam / labelparam / noteparam / assetparam / otherparam /noteB64param ]
     amountparam     = "amount=" *digit
+    feeparam        = "fee=" *digit
+    decimalparam    = "decimal-power=" *digit
     labelparam      = "label=" *qchar
     assetparam      = "asset=" *digit
     noteparam       = (xnote | note)
     xnote           = "xnote=" *qchar
     note            = "note=" *qchar
+    noteB64param    = "noteB64=0|1"
 ```
+## Use cases
 
+"P65LXHA5MEDMOJ2ZAITLZWYSU6W25BF2FCXJ5KQRDUB2NT2T7DPAAFYT3U"
+Pure address scanning. This Code should fill in the address where funds should be sent.
+
+"algorand://P65LXHA5MEDMOJ2ZAITLZWYSU6W25BF2FCXJ5KQRDUB2NT2T7DPAAFYT3U",
+Pure address scanning. This Code should fill in the address where funds should be sent.
+
+"algorand://P65LXHA5MEDMOJ2ZAITLZWYSU6W25BF2FCXJ5KQRDUB2NT2T7DPAAFYT3U?&note=123",
+Address with note. This Code should fill in the address where funds should be sent, and note.
+
+"algorand://P65LXHA5MEDMOJ2ZAITLZWYSU6W25BF2FCXJ5KQRDUB2NT2T7DPAAFYT3U?&note=234&&",
+Any number of &. This should be correctly processed by the scanning application with defining address and note.
+
+"algorand://P65LXHA5MEDMOJ2ZAITLZWYSU6W25BF2FCXJ5KQRDUB2NT2T7DPAAFYT3U?note=345&fee=3&amount=1000&decimal-power=2&asset=312769",
+decimal-power and asset test and fee. This should set amout to be sent 10.00 USDT with fee 0,030 and note 345
+
+"algorand://P65LXHA5MEDMOJ2ZAITLZWYSU6W25BF2FCXJ5KQRDUB2NT2T7DPAAFYT3U?note=SGVsbG8=&noteB64=1&fee=0.001&amount=1",
+Base64 encoded note. The scanning application must be able to send raw data to the network with the transaction.
 
 ## Installation
 Inside your project folder do:
